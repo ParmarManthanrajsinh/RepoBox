@@ -15,6 +15,7 @@ $userExists = $stmt->fetchColumn() > 0;
 if ($userExists) {
     $error = "A system administrator is already registered. Only one user is permitted.";
 } elseif ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    validateCsrfToken();
     $username = trim($_POST['username'] ?? '');
     $password = $_POST['password'] ?? '';
     $confirm_password = $_POST['confirm_password'] ?? '';
@@ -55,6 +56,7 @@ if ($userExists) {
         <?php elseif (!$userExists): ?>
             <div class="card p-4">
                 <form method="POST" action="register.php">
+                    <?php echo csrfInputField(); ?>
                     <div class="mb-3">
                         <label for="username" class="form-label">Username</label>
                         <input type="text" class="form-control" id="username" name="username" required autofocus autocomplete="username">

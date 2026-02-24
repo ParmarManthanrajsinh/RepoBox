@@ -5,6 +5,7 @@ require_once 'includes/auth.php';
 requireLogin();
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_FILES['files'])) {
+    validateCsrfToken();
     $files = $_FILES['files'];
     $user_id = $_SESSION['user_id'];
     
@@ -47,6 +48,18 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_FILES['files'])) {
             continue;
         }
 
+        // Block dangerous file extensions
+        $blocked_extensions = [
+            'php', 'phtml', 'php3', 'php4', 'php5', 'php7', 'phps', 'phar',
+            'shtml', 'sh', 'cgi', 'pl', 'py', 'rb', 'asp', 'aspx', 'jsp',
+            'exe', 'bat', 'cmd', 'com', 'scr', 'msi', 'dll', 'vbs', 'wsf'
+        ];
+        $file_ext = strtolower(pathinfo($name, PATHINFO_EXTENSION));
+        if (in_array($file_ext, $blocked_extensions)) {
+            $errorMessages[] = "File {$name} has a blocked extension (.{$file_ext}).";
+            continue;
+        }
+
         // Determine the original path (falling back to simple filename if not available)
         $original_name = isset($filePaths[$i]) && !empty($filePaths[$i]) ? $filePaths[$i] : basename($name);
         // Sanitize path separators just in case
@@ -69,7 +82,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_FILES['files'])) {
                 $successCount++;
             } catch (PDOException $e) {
                 unlink($destination); // rollback
-                $errorMessages[] = "Database error for {$name}: " . $e->getMessage();
+                error_log("RepoBox upload DB error for user {$user_id}, file {$name}: " . $e->getMessage());
+                $errorMessages[] = "Database error while saving {$name}. Please try again.";
             }
         } else {
             $errorMessages[] = "Failed to move {$name} to storage.";

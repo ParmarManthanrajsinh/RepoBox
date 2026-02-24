@@ -4,8 +4,16 @@ require_once 'includes/auth.php';
 
 requireLogin();
 
-if (isset($_GET['id'])) {
-    $file_id = filter_var($_GET['id'], FILTER_VALIDATE_INT);
+if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
+    $_SESSION['error'] = "Invalid request method.";
+    header("Location: dashboard.php");
+    exit;
+}
+
+validateCsrfToken();
+
+if (isset($_POST['id'])) {
+    $file_id = filter_var($_POST['id'], FILTER_VALIDATE_INT);
     $user_id = $_SESSION['user_id'];
 
     if ($file_id) {

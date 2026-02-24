@@ -33,13 +33,54 @@ if (!file_exists($filepath)) {
 
 // Helper parameters
 $is_image = strpos($file['file_type'], 'image/') === 0;
-// Basic check for text/code-like files
+
+// Map file extensions to Highlight.js language identifiers
+$ext_to_lang = [
+    'php' => 'php', 'js' => 'javascript', 'ts' => 'typescript', 'jsx' => 'javascript',
+    'tsx' => 'typescript', 'py' => 'python', 'rb' => 'ruby', 'java' => 'java',
+    'c' => 'c', 'cpp' => 'cpp', 'cc' => 'cpp', 'h' => 'c', 'hpp' => 'cpp',
+    'cs' => 'csharp', 'go' => 'go', 'rs' => 'rust', 'swift' => 'swift',
+    'kt' => 'kotlin', 'scala' => 'scala', 'r' => 'r', 'lua' => 'lua',
+    'pl' => 'perl', 'sh' => 'bash', 'bash' => 'bash', 'zsh' => 'bash',
+    'bat' => 'dos', 'ps1' => 'powershell', 'psm1' => 'powershell',
+    'html' => 'html', 'htm' => 'html', 'css' => 'css', 'scss' => 'scss',
+    'sass' => 'scss', 'less' => 'less', 'xml' => 'xml', 'svg' => 'xml',
+    'json' => 'json', 'yaml' => 'yaml', 'yml' => 'yaml', 'toml' => 'ini',
+    'ini' => 'ini', 'cfg' => 'ini', 'conf' => 'ini',
+    'md' => 'markdown', 'markdown' => 'markdown',
+    'sql' => 'sql', 'graphql' => 'graphql', 'gql' => 'graphql',
+    'dockerfile' => 'dockerfile', 'makefile' => 'makefile',
+    'cmake' => 'cmake', 'gradle' => 'gradle',
+    'tf' => 'hcl', 'hcl' => 'hcl',
+    'dart' => 'dart', 'zig' => 'zig', 'nim' => 'nim',
+    'ex' => 'elixir', 'exs' => 'elixir', 'erl' => 'erlang',
+    'hs' => 'haskell', 'ml' => 'ocaml', 'fs' => 'fsharp',
+    'clj' => 'clojure', 'lisp' => 'lisp', 'el' => 'lisp',
+    'vue' => 'html', 'svelte' => 'html',
+    'txt' => 'plaintext', 'log' => 'plaintext', 'env' => 'bash',
+    'gitignore' => 'bash', 'htaccess' => 'apache',
+];
+
+// Get file extension
+$file_ext = strtolower(pathinfo($file['original_name'], PATHINFO_EXTENSION));
+// Also check filename itself for extensionless files like Dockerfile, Makefile
+$basename_lower = strtolower(pathinfo($file['original_name'], PATHINFO_FILENAME));
+
+$highlight_lang = $ext_to_lang[$file_ext] ?? $ext_to_lang[$basename_lower] ?? null;
+
+// Broader text/code detection - if we have a highlight lang OR mime starts with text/
 $is_text = strpos($file['file_type'], 'text/') === 0 
+           || $highlight_lang !== null
            || in_array($file['file_type'], ['application/json', 'application/javascript', 'application/xml', 'application/x-httpd-php']);
 
 // Default max preview size for text to prevent crashing browser on huge logs (e.g. 5MB limit)
 $max_text_preview_size = 5 * 1024 * 1024; 
 $can_preview_text = $is_text && $file['file_size'] <= $max_text_preview_size;
+
+// If no specific lang detected, default to plaintext
+if ($highlight_lang === null && $can_preview_text) {
+    $highlight_lang = 'plaintext';
+}
 
 // Helper function to format file sizes
 if (!function_exists('formatBytes')) {
@@ -94,9 +135,13 @@ require_once 'includes/header.php';
             <a href="download.php?id=<?php echo $file['id']; ?>" class="btn btn-sm btn-outline-secondary me-2 shadow-sm" title="Download">
                 <i class="bi bi-download me-1"></i> Download
             </a>
-            <a href="delete.php?id=<?php echo $file['id']; ?>" class="btn btn-sm btn-outline-danger shadow-sm delete-btn" title="Delete">
-                <i class="bi bi-trash me-1"></i> Delete
-            </a>
+            <form action="delete.php" method="POST" class="d-inline delete-form">
+                <?php echo csrfInputField(); ?>
+                <input type="hidden" name="id" value="<?php echo $file['id']; ?>">
+                <button type="submit" class="btn btn-sm btn-outline-danger shadow-sm delete-btn" title="Delete">
+                    <i class="bi bi-trash me-1"></i> Delete
+                </button>
+            </form>
         </div>
     </div>
     
@@ -108,10 +153,20 @@ require_once 'includes/header.php';
             </div>
             
         <?php elseif ($can_preview_text): ?>
-            <!-- TEXT / CODE PREVIEW -->
+            <!-- TEXT / CODE PREVIEW WITH SYNTAX HIGHLIGHTING -->
             <?php $content = file_get_contents($filepath); ?>
-            <div style="border-bottom-left-radius: 0.375rem; border-bottom-right-radius: 0.375rem;">
-                <pre class="m-0 p-3" style="font-family: ui-monospace, SFMono-Regular, SF Mono, Menlo, Consolas, Liberation Mono, monospace; font-size: 13px; line-height: 1.5; overflow-x: auto;"><code><?php echo htmlspecialchars($content); ?></code></pre>
+            <?php $lines = substr_count($content, "\n") + 1; ?>
+            <div class="code-preview-wrapper" style="border-bottom-left-radius: 0.375rem; border-bottom-right-radius: 0.375rem; overflow-x: auto;">
+                <div class="d-flex">
+                    <div class="line-numbers text-end pe-3 ps-3 py-3 user-select-none" style="min-width: 50px; background-color: #0d1117; border-right: 1px solid #21262d;">
+                        <?php for ($i = 1; $i <= $lines; $i++): ?>
+                            <div style="font-family: ui-monospace, SFMono-Regular, SF Mono, Menlo, Consolas, monospace; font-size: 12px; line-height: 20px; color: #484f58;"><?php echo $i; ?></div>
+                        <?php endfor; ?>
+                    </div>
+                    <div class="flex-grow-1" style="overflow-x: auto;">
+                        <pre class="m-0 p-3" style="background: #0d1117; border: none; border-radius: 0;"><code class="language-<?php echo htmlspecialchars($highlight_lang); ?>" style="font-size: 12px; line-height: 20px;"><?php echo htmlspecialchars($content); ?></code></pre>
+                    </div>
+                </div>
             </div>
             
         <?php else: ?>

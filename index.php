@@ -8,6 +8,7 @@ redirectIfLoggedIn();
 $error = '';
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    validateCsrfToken();
     $username = trim($_POST['username'] ?? '');
     $password = $_POST['password'] ?? '';
 
@@ -19,7 +20,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $user = $stmt->fetch();
 
         if ($user && password_verify($password, $user['password'])) {
-            // Login successful
+            // Login successful — regenerate session to prevent fixation
+            session_regenerate_id(true);
             $_SESSION['user_id'] = $user['id'];
             $_SESSION['username'] = $user['username'];
             header("Location: dashboard.php");
@@ -45,6 +47,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
         <div class="card p-4">
             <form method="POST" action="index.php">
+                <?php echo csrfInputField(); ?>
                 <div class="mb-3">
                     <label for="username" class="form-label">Username</label>
                     <input type="text" class="form-control" id="username" name="username" required autofocus autocomplete="username">

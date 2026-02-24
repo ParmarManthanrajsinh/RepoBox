@@ -1,5 +1,4 @@
-/* e:/RepoBox/assets/css/style.css */
-/* e:/RepoBox/assets/css/style.css */
+/* RepoBox - GitHub Dark Theme */
 :root {
     --github-bg: #0d1117;
     --github-card-bg: #161b22;
@@ -133,4 +132,128 @@ pre {
     color: var(--github-text);
     border: 1px solid var(--github-border);
     border-radius: 6px;
+}
+
+/* Highlight.js overrides for GitHub dark look */
+pre code.hljs {
+    background: #0d1117 !important;
+    padding: 0 !important;
+}
+
+.code-preview-wrapper {
+    background-color: #0d1117;
+}
+
+.line-numbers div {
+    font-variant-numeric: tabular-nums;
+}
+
+.hljs {
+    background: #0d1117 !important;
+}
+
+/* ========== Responsive ========== */
+
+/* Breadcrumb wrapping on small screens */
+.breadcrumb {
+    flex-wrap: wrap;
+    word-break: break-word;
+}
+
+/* View page: stack header on mobile */
+@media (max-width: 767.98px) {
+    .card-header.d-flex {
+        flex-direction: column !important;
+        align-items: flex-start !important;
+        gap: 0.75rem;
+    }
+
+    .card-header .d-flex.align-items-center {
+        flex-wrap: wrap;
+    }
+
+    /* Make action buttons wrap nicely */
+    .card-header>div:last-child {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 0.4rem;
+        width: 100%;
+    }
+
+    .card-header>div:last-child .btn {
+        flex: 1 1 auto;
+        text-align: center;
+    }
+
+    /* Smaller breadcrumb font on mobile */
+    .breadcrumb.fs-5 {
+        font-size: 1rem !important;
+    }
+
+    /* Dashboard: stack title and buttons */
+    .row.mb-4 .col-md-6.text-md-end {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 0.5rem;
+    }
+
+    .row.mb-4 .col-md-6.text-md-end .btn {
+        flex: 1 1 auto;
+        text-align: center;
+    }
+
+    /* Hide line numbers on very small screens */
+    .line-numbers {
+        display: none !important;
+    }
+
+    /* Code font size slightly smaller on mobile */
+    pre code {
+        font-size: 11px !important;
+    }
+
+    /* Login/Register card padding reduction */
+    .card.p-4 {
+        padding: 1.25rem !important;
+    }
+
+    /* Table cells: tighter padding on mobile */
+    .table td,
+    .table th {
+        padding: 0.5rem 0.75rem;
+        font-size: 0.875rem;
+    }
+
+    .table td .btn-sm {
+        padding: 0.2rem 0.4rem;
+        font-size: 0.75rem;
+    }
+
+    /* Reduce heading sizes */
+    h2 {
+        font-size: 1.35rem;
+    }
+}
+
+/* Medium screens - tablets */
+@media (max-width: 991.98px) and (min-width: 768px) {
+    .card-header>div:last-child .btn span {
+        display: none;
+    }
+}
+
+/* Very small screens */
+@media (max-width: 400px) {
+    .container {
+        padding-left: 10px;
+        padding-right: 10px;
+    }
+
+    .breadcrumb.fs-5 {
+        font-size: 0.875rem !important;
+    }
+
+    .table td .bi {
+        font-size: 1rem !important;
+    }
 }

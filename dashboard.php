@@ -180,9 +180,13 @@ require_once 'includes/header.php';
                             <a href="download.php?id=<?php echo $item['data']['id']; ?>" class="btn btn-sm btn-outline-secondary me-1" title="Download">
                                 <i class="bi bi-download"></i>
                             </a>
-                            <a href="delete.php?id=<?php echo $item['data']['id']; ?>" class="btn btn-sm btn-outline-danger delete-btn" title="Delete">
-                                <i class="bi bi-trash"></i>
-                            </a>
+                            <form action="delete.php" method="POST" class="d-inline delete-form">
+                                <?php echo csrfInputField(); ?>
+                                <input type="hidden" name="id" value="<?php echo $item['data']['id']; ?>">
+                                <button type="submit" class="btn btn-sm btn-outline-danger delete-btn" title="Delete">
+                                    <i class="bi bi-trash"></i>
+                                </button>
+                            </form>
                         <?php endif; ?>
                     </td>
                 </tr>
@@ -204,6 +208,7 @@ require_once 'includes/header.php';
   <div class="modal-dialog">
     <div class="modal-content">
       <form action="upload.php" method="POST" enctype="multipart/form-data" id="uploadForm">
+          <?php echo csrfInputField(); ?>
           <div class="modal-header">
             <h5 class="modal-title" id="uploadModalLabel">Upload Files or Folder</h5>
             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>

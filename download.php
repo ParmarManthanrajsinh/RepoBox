@@ -20,7 +20,8 @@ if (isset($_GET['id'])) {
                 // Set headers for download
                 header('Content-Description: File Transfer');
                 header('Content-Type: ' . $file['file_type']);
-                header('Content-Disposition: attachment; filename="' . basename($file['original_name']) . '"');
+                $safeFilename = rawurlencode(basename($file['original_name']));
+                header('Content-Disposition: attachment; filename="' . basename($file['original_name']) . "\"; filename*=UTF-8''" . $safeFilename);
                 header('Expires: 0');
                 header('Cache-Control: must-revalidate');
                 header('Pragma: public');

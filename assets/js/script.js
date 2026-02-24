@@ -1,9 +1,9 @@
 // e:/RepoBox/assets/js/script.js
-document.addEventListener("DOMContentLoaded", function() {
-    // Basic confirmation for delete actions
-    const deleteButtons = document.querySelectorAll('.delete-btn');
-    deleteButtons.forEach(button => {
-        button.addEventListener('click', function(e) {
+document.addEventListener("DOMContentLoaded", function () {
+    // Confirmation for delete forms
+    const deleteForms = document.querySelectorAll('.delete-form');
+    deleteForms.forEach(form => {
+        form.addEventListener('submit', function (e) {
             if (!confirm('Are you sure you want to delete this file? This action cannot be undone.')) {
                 e.preventDefault();
             }
