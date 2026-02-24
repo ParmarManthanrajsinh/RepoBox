@@ -1,0 +1,36 @@
+# Environment & Configuration
+# Ignore database config with sensitive passwords if you plan on tracking a template file instead
+# /includes/db.php 
+
+# Uploaded User Data
+/uploads/*
+!/uploads/.htaccess
+!/uploads/index.html
+!/uploads/index.php
+
+# OS Generated Files
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+desktop.ini
+
+# IDE & Editor Folders
+/.vscode/
+/.idea/
+*.swp
+*.swo
+*~
+
+# Package Managers
+/vendor/
+node_modules/
+composer.phar
+
+# Logs
+*.log
+error_log
+php_errors.log

@@ -1,6 +1,6 @@
 </div> <!-- End of .container -->
 
-    <footer class="footer mt-auto py-3 bg-light text-center border-top border-light-subtle">
+    <footer class="footer mt-auto py-3 bg-dark text-center border-top border-secondary">
         <div class="container">
             <span class="text-muted small">&copy; <?php echo date('Y'); ?> RepoBox. Personal Cloud Storage.</span>
         </div>

@@ -7,6 +7,7 @@ RepoBox is a lightweight, self-hosted personal cloud repository built with PHP a
 * **Folder Uploads**: Drag and drop or select entire folders to upload. The system automatically preserves your directory structure.
 * **Inline File Viewer**: Preview source code, text files, and images directly in the browser—no need to download them first.
 * **Repository Export**: Download your entire repository (or any sub-structure) as a neatly packaged ZIP file in one click.
+* **GitHub Dark Theme**: A sleek, high-contrast dark interface matching the official GitHub dark aesthetics for a premium developer experience.
 * **Secure Authentication**: Built-in user registration and encrypted password login.
 
 ---

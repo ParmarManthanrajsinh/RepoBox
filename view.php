@@ -81,7 +81,7 @@ require_once 'includes/header.php';
 </div>
 
 <div class="card shadow-sm mb-4">
-    <div class="card-header bg-light d-flex justify-content-between align-items-center py-3">
+    <div class="card-header d-flex justify-content-between align-items-center py-3">
         <div class="d-flex align-items-center">
             <i class="bi bi-file-earmark-text text-muted me-2 fs-4"></i>
             <strong><?php echo htmlspecialchars($filename); ?></strong>
@@ -100,17 +100,17 @@ require_once 'includes/header.php';
         </div>
     </div>
     
-    <div class="card-body p-0 bg-white" style="min-height: 400px;">
+    <div class="card-body p-0" style="min-height: 400px;">
         <?php if ($is_image): ?>
             <!-- IMAGE PREVIEW -->
-            <div class="text-center p-4" style="background-color: #f6f8fa;">
+            <div class="text-center p-4">
                 <img src="raw.php?id=<?php echo $file['id']; ?>" class="img-fluid border shadow-sm" style="max-height: 70vh;" alt="<?php echo htmlspecialchars($filename); ?>">
             </div>
             
         <?php elseif ($can_preview_text): ?>
             <!-- TEXT / CODE PREVIEW -->
             <?php $content = file_get_contents($filepath); ?>
-            <div style="background-color: #f6f8fa; border-bottom-left-radius: 0.375rem; border-bottom-right-radius: 0.375rem;">
+            <div style="border-bottom-left-radius: 0.375rem; border-bottom-right-radius: 0.375rem;">
                 <pre class="m-0 p-3" style="font-family: ui-monospace, SFMono-Regular, SF Mono, Menlo, Consolas, Liberation Mono, monospace; font-size: 13px; line-height: 1.5; overflow-x: auto;"><code><?php echo htmlspecialchars($content); ?></code></pre>
             </div>
             

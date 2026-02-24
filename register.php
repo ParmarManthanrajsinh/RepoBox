@@ -41,7 +41,7 @@ if ($userExists) {
 <div class="row justify-content-center mt-5">
     <div class="col-md-5">
         <div class="text-center mb-4">
-            <i class="bi bi-box-seam display-1 text-primary" style="color: #2da44e !important;"></i>
+            <i class="bi bi-box-seam display-1 text-success"></i>
             <h2 class="h3 mt-3 font-weight-normal">Register to RepoBox</h2>
             <p class="text-muted">Personal Cloud Storage Initial Setup</p>
         </div>

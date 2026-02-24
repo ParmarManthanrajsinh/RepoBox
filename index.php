@@ -35,7 +35,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 <div class="row justify-content-center mt-5">
     <div class="col-md-5">
         <div class="text-center mb-4">
-            <i class="bi bi-box-seam display-1 text-primary" style="color: #0969da !important;"></i>
+            <i class="bi bi-box-seam display-1 text-primary"></i>
             <h2 class="h3 mt-3 font-weight-normal">Sign in to RepoBox</h2>
         </div>
 
@@ -53,7 +53,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     <label for="password" class="form-label">Password</label>
                     <input type="password" class="form-control" id="password" name="password" required autocomplete="current-password">
                 </div>
-                <button type="submit" class="btn btn-primary w-100 mb-2" style="background-color: #2da44e; border-color: #2da44e;">Sign in</button>
+                <button type="submit" class="btn btn-primary w-100 mb-2">Sign in</button>
             </form>
         </div>
         

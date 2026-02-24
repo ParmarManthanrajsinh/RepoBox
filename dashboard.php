@@ -82,7 +82,7 @@ require_once 'includes/header.php';
         <h2 class="mb-0">Your Repository</h2>
     </div>
     <div class="col-md-6 text-md-end mt-3 mt-md-0">
-        <a href="download_repo.php" class="btn btn-outline-primary me-2 <?php echo count($all_files) === 0 ? 'disabled' : ''; ?>">
+        <a href="download_repo.php" class="btn btn-outline-secondary me-2 <?php echo count($all_files) === 0 ? 'disabled' : ''; ?>">
             <i class="bi bi-file-earmark-zip me-1"></i> Download Repo as ZIP
         </a>
         <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#uploadModal">
@@ -133,7 +133,7 @@ require_once 'includes/header.php';
     <?php if (count($display_items) > 0 || $current_path !== ''): ?>
     <div class="table-responsive">
         <table class="table table-hover table-borderless mb-0 align-middle">
-            <thead class="table-light border-bottom">
+            <thead>
                 <tr>
                     <th scope="col" class="ps-4 w-50">Name</th>
                     <th scope="col">Size</th>
@@ -148,8 +148,8 @@ require_once 'includes/header.php';
                 ?>
                 <tr>
                     <td colspan="4" class="ps-4">
-                        <i class="bi bi-folder-fill text-primary me-2 fs-5"></i>
-                        <a href="dashboard.php?path=<?php echo urlencode($parent_path); ?>" class="text-decoration-none fw-bold text-dark">..</a>
+                        <i class="bi bi-folder-fill me-2 fs-5" style="color: #54aeff;"></i>
+                        <a href="dashboard.php?path=<?php echo urlencode($parent_path); ?>" class="text-decoration-none fw-bold">..</a>
                     </td>
                 </tr>
                 <?php endif; ?>
@@ -158,13 +158,13 @@ require_once 'includes/header.php';
                 <tr>
                     <td class="ps-4">
                         <?php if ($item['type'] === 'folder'): ?>
-                            <i class="bi bi-folder-fill text-primary me-2 fs-5"></i>
-                            <a href="dashboard.php?path=<?php echo urlencode(($current_path ? $current_path . '/' : '') . $item['name']); ?>" class="text-decoration-none fw-bold text-dark">
+                            <i class="bi bi-folder-fill me-2 fs-5" style="color: #54aeff;"></i>
+                            <a href="dashboard.php?path=<?php echo urlencode(($current_path ? $current_path . '/' : '') . $item['name']); ?>" class="text-decoration-none fw-bold">
                                 <?php echo htmlspecialchars($item['name']); ?>
                             </a>
                         <?php else: ?>
                             <i class="bi bi-file-earmark-text text-muted me-2 fs-5"></i>
-                            <a href="view.php?id=<?php echo $item['data']['id']; ?>" class="text-decoration-none text-dark">
+                            <a href="view.php?id=<?php echo $item['data']['id']; ?>" class="text-decoration-none">
                                 <?php echo htmlspecialchars($item['name']); ?>
                             </a>
                         <?php endif; ?>
@@ -222,7 +222,7 @@ require_once 'includes/header.php';
           </div>
           <div class="modal-footer">
             <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
-            <button type="submit" class="btn btn-primary" style="background-color: #2da44e;" id="uploadBtn">Upload</button>
+            <button type="submit" class="btn btn-primary" id="uploadBtn">Upload</button>
           </div>
       </form>
     </div>
