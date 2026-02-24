@@ -233,6 +233,26 @@ pre code.hljs {
     h2 {
         font-size: 1.35rem;
     }
+
+    /* Profile page: full-width buttons on mobile */
+    .profile-overview .display-1 {
+        font-size: 3rem !important;
+    }
+
+    .profile-overview .card-body {
+        padding: 1rem !important;
+    }
+}
+
+/* Desktop overrides for profile utilities */
+@media (min-width: 768px) {
+    .w-md-auto {
+        width: auto !important;
+    }
+
+    .fs-md-5 {
+        font-size: 1.25rem !important;
+    }
 }
 
 /* Medium screens - tablets */

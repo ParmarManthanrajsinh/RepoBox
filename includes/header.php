@@ -25,9 +25,9 @@
             <span class="navbar-toggler-icon"></span>
         </button>
         <div class="collapse navbar-collapse" id="navbarNav">
-            <ul class="navbar-nav ms-auto">
+            <ul class="navbar-nav ms-auto align-items-lg-center">
                 <li class="nav-item">
-                    <span class="nav-link text-light"><i class="bi bi-person-circle"></i> <?php echo htmlspecialchars($_SESSION['username']); ?></span>
+                    <a class="nav-link" href="profile.php" title="Profile Settings"><i class="bi bi-person-circle me-1"></i> <?php echo htmlspecialchars($_SESSION['username']); ?></a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" href="logout.php"><i class="bi bi-box-arrow-right"></i> Logout</a>
